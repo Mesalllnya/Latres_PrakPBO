@@ -13,14 +13,20 @@ Aplikasi ini memungkinkan pengguna untuk mengelola jadwal atau tugas sehari-hari
 ## Perubahan Kode & Arsitektur
 Aplikasi ini sebelumnya menggunakan `FakeTodoRepository` di mana data akan hilang ketika program ditutup. Untuk memenuhi kebutuhan penyimpanan permanen dan perbaikan struktur tanpa memodifikasi antarmuka bawaan (`TodoView.java`), implementasi berikut diterapkan:
 
+* **Database:** Pembuatan database sebagai tempat tersimpannya dan sumber data pada proses berjalannya program
 * **Lapisan Model (Data):** Pembuatan file `RealTodoRepository.java` yang mengimplementasikan `TodoRepository`. File ini berisi query SQL (JDBC) untuk melakukan proses *Insert, Select, Update*, dan *Delete* secara langsung ke database MySQL. File `DBConnection.java` ditambahkan khusus untuk mengelola akses *host, user,* dan *database*.
 * **Lapisan Controller (Logika):**
   Logika program yang awalnya menumpuk di berkas utama (`Latres.java`) dipisahkan sepenuhnya ke dalam file `DBController.java`. Berkas ini bertindak sebagai perantara yang mendengarkan *event trigger* dari UI (klik tombol & seleksi baris tabel) dan menginstruksikan `RealTodoRepository` untuk memproses data terkait.
 * **Lapisan View & Entry Point:**
   Struktur `Latres.java` direduksi murni menjadi *Entry Point* (titik awal) untuk melakukan instansiasi View, Model, dan Controller. Kode GUI bawaan (`TodoView.java`) dijaga *originalitasnya* dengan memanfaatkan antarmuka *public method* yang ada agar tidak menyalahi larangan modifikasi aturan desain sistem (*Open/Closed Principle*).
 
+
+
 ## Konfigurasi Prasyarat
 Untuk menjalankan aplikasi ini, konfigurasi yang diperlukan adalah:
 1. Menambahkan ekstensi `mysql-connector-j` ke dalam manajemen dependency (`pom.xml` untuk Maven atau `build.gradle` untuk Gradle).
 2. Memastikan server lokal (contoh: XAMPP/MySQL) dalam keadaan aktif.
 3. Melakukan Import dengan databsae yang sudah disediakan
+
+
+
