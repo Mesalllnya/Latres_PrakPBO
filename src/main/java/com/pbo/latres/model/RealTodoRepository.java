@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Main.java to edit this template
- */
 package com.pbo.latres.model;
 
 import com.pbo.latres.dto.InsertTodoDTO;
@@ -10,11 +6,6 @@ import java.util.List;
 import java.sql.*;
 import java.util.ArrayList;
 
-
-/**
- *
- * @author Asus
- */
 public class RealTodoRepository implements TodoRepository {
         
     @Override
@@ -47,7 +38,7 @@ public class RealTodoRepository implements TodoRepository {
             ResultSet rs = pstmt.executeQuery();
             
             if(rs.next()){
-                return new TodoTask(rs.getInt(id), 
+                return new TodoTask(rs.getInt("id"), 
                         rs.getString("title"), 
                         rs.getString("status"));
             } 
@@ -59,7 +50,7 @@ public class RealTodoRepository implements TodoRepository {
 
     @Override
     public Boolean insert(InsertTodoDTO insertTodoDTO) {
-        String query = "INSERT INTO todos (title, status) VALUE (?,?)";
+        String query = "INSERT INTO todos (title, status) VALUES (?,?)";
         try(Connection conn = DBConnection.getConnection(); 
                 PreparedStatement pstmt = conn.prepareStatement(query)){
             pstmt.setString(1, insertTodoDTO.getTitle());
@@ -101,7 +92,4 @@ public class RealTodoRepository implements TodoRepository {
             return false;
         }
     }
-
-   
-    
 }

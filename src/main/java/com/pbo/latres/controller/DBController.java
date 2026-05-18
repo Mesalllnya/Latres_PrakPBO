@@ -74,15 +74,24 @@ public class DBController {
         });
         
         view.onTableSelect(e -> {
+            javax.swing.event.ListSelectionEvent event = (javax.swing.event.ListSelectionEvent) e;
+            if (event.getValueIsAdjusting()) {
+                return;
+            }
+
+            // 1. Ambil ID dari baris yang sedang diklik
             int selectedId = view.getSelectedTodoId();
             
-            if(selectedId == -1){
+            // Hentikan proses jika tidak ada baris valid yang terpilih
+            if (selectedId == -1) {
                 return;
             }
             
+            // 2. Tarik data lengkap dari database berdasarkan ID
             TodoTask task = repository.getById(selectedId);
             
-            if(task != null){
+            // 3. Jika data ditemukan, perintahkan View untuk mengisi form
+            if (task != null) {
                 view.setForm(task);
             }
         });
